@@ -28,9 +28,12 @@
     var player = {
         x: tileSize + 2,
         y: tileSize + 2,
-        width: 28,
-        height: 28,
-        speed: 2
+        width: 24,
+        height: 32,
+        speed: 2,
+        srcX: 0,
+        srcY: tileSrcSize,
+        countAnim: 0
     }
 	
 	//mapa do labirinto
@@ -145,15 +148,32 @@
 
         if(mvLeft && !mvRight) {
             player.x -= player.speed
+            player.srcY = tileSrcSize + player.height * 2
         }
         if(mvRight && !mvLeft) {
             player.x += player.speed
+            player.srcY = tileSrcSize + player.height * 3
         }
         if(mvUp && !mvDown) {
             player.y -= player.speed
+            player.srcY = tileSrcSize + player.height * 1
         }
         if(mvDown && !mvUp) {
             player.y += player.speed
+            player.srcY = tileSrcSize + player.height * 0
+        }
+
+        if(mvLeft || mvUp || mvRight || mvDown) {
+            player.countAnim++
+
+            if(player.countAnim >= 40) {
+                player.countAnim = 0
+            }
+
+            player.srcX = Math.floor(player.countAnim/5) * player.width
+        } else {
+            player.srcX = 0
+            player.countAnim = 0
         }
 
         for(var i in walls) {
@@ -215,8 +235,11 @@
             }
         }
 
-        ctx.fillStyle = "#00f"
-        ctx.fillRect(player.x, player.y, player.width, player.height)
+        ctx.drawImage(
+            img,
+            player.srcX, player.srcY, player.width, player.height,
+            player.x, player.y, player.width, player.height
+        )
         ctx.restore()
 
     }
