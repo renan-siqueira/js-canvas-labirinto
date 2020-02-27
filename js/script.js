@@ -11,7 +11,14 @@
     var mvLeft = mvUp = mvRight = mvDown = false
 
     //tamanho dos blocos
-    var tileSize = 96
+    var tileSize = 64
+    var tileSrcSize = 96
+
+    var img = new Image()
+        img.scr = "img/img.png"
+        img.addEventListener("load", function(){
+            loop()
+        }, false)
 
     // Array para colisao
     var walls = []
@@ -167,7 +174,7 @@
         }
 
         cam.x = Math.max(0, Math.min(T_WIDTH - cam.width, cam.x))
-        cam.y = Math.max(0, Math.min(T_WIDTH - cam.height, cam.y))
+        cam.y = Math.max(0, Math.min(T_HEIGHT - cam.height, cam.y))
     }
 
     function blockRectangle(objA, objB) {
@@ -197,11 +204,13 @@
         for(var row in maze) {
             for(var col in maze[row]){
                 var tile = maze[row][col]
-                if(tile === 1) {
-                    var x = col * tileSize
-                    var y = row * tileSize
-                    ctx.fillRect(x,y,tileSize,tileSize)
-                }
+                var x = col * tileSize
+                var y = row * tileSize
+                ctx.drawImage(
+                    img,
+                    tile * tileSrcSize, 0, tileSrcSize, tileSrcSize,
+                    x, y, tileSize, tilesize
+                )
             }
         }
 
@@ -210,7 +219,5 @@
         ctx.restore()
 
     }
-
-    loop()
 
 }())
