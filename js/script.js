@@ -15,10 +15,11 @@
     var tileSrcSize = 96
 
     var img = new Image()
-        img.scr = "img/img.png"
+        img.src = "img/img.png"
         img.addEventListener("load", function(){
             loop()
         }, false)
+        console.log(img)
 
     // Array para colisao
     var walls = []
@@ -209,7 +210,7 @@
                 ctx.drawImage(
                     img,
                     tile * tileSrcSize, 0, tileSrcSize, tileSrcSize,
-                    x, y, tileSize, tilesize
+                    x, y, tileSize, tileSize
                 )
             }
         }
